@@ -15,10 +15,31 @@ import { takeEvery, put } from 'redux-saga/effects';
 const sagaMiddleware = createSagaMiddleware();
 
 function* rootSaga() {
+    yield takeEvery('FETCH_FAVORITES', fetchFavorites);
+    yield takeEvery('UPDATE_FAVORITE', updateFavorite );
     yield takeEvery('FETCH_GIPH', search);
-
 }
 
+function* fetchFavorites(action) {
+    console.log('in fetchFavorites');
+    try {
+        const response = yield axios.get('/api/favorite');
+        yield put ({type: 'SET_FAVORITES', payload: response.data});
+    } catch (error) {
+        console.log('error in GET favorites', error);
+    }
+}
+
+function* updateFavorite(action) {
+    console.log('in updateFavorite');
+    try{
+        const response = yield axios.put(`/api/favorite/${action.payload.category_id}`, action.payload);
+        yield put({ type: 'FETCH_FAVORITES' })
+    }
+    catch (error) {
+        console.log('error in UPDATE/PUT id and url', error);
+    }
+}
 
 function* search(action){
     console.log('In search');
@@ -36,6 +57,16 @@ function* search(action){
     }
 }
 
+const favorites = (state = [], action) => {
+    console.log(state);
+    switch (action.type) {
+        case 'SET_FAVORITES':
+            return action.payload;
+        default:
+            return state;
+    }
+}
+
 const giphReducer = (state=[], action) => {
     if (action.type === 'SET_GIPH'){
         return action.payload.data;
@@ -45,6 +76,7 @@ const giphReducer = (state=[], action) => {
 
 const store = createStore(
     combineReducers({ 
+        favorites,
         giphReducer,
      }),
     applyMiddleware(logger, sagaMiddleware)
