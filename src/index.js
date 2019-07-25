@@ -3,11 +3,13 @@ import ReactDOM from 'react-dom';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import { logger } from 'redux-logger'
+import './index.css';
+
 
 import App from './components/App/App';
 
 import createSagaMiddleware from 'redux-saga';
-import axios from 'axios';
+import Axios from 'axios';
 import { takeEvery, put } from 'redux-saga/effects';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -15,6 +17,7 @@ const sagaMiddleware = createSagaMiddleware();
 function* rootSaga() {
     yield takeEvery('FETCH_FAVORITES', fetchFavorites);
     yield takeEvery('UPDATE_FAVORITE', updateFavorite );
+    yield takeEvery('FETCH_GIPH', search);
 }
 
 function* fetchFavorites(action) {
@@ -38,6 +41,22 @@ function* updateFavorite(action) {
     }
 }
 
+function* search(action){
+    console.log('In search');
+    try {
+        const response = yield Axios.post('/api/search', action.payload)
+        console.log(response.data);
+        yield put({
+            type: 'SET_GIPH',
+            payload: response.data
+        });
+    }
+    catch (error) {
+        alert(`Couldn't get yo GIPH foo!`);
+        console.log('Error on GET', error);
+    }
+}
+
 const favorites = (state = [], action) => {
     console.log(state);
     switch (action.type) {
@@ -48,10 +67,17 @@ const favorites = (state = [], action) => {
     }
 }
 
+const giphReducer = (state=[], action) => {
+    if (action.type === 'SET_GIPH'){
+        return action.payload.data;
+    }
+    return state;
+}
+
 const store = createStore(
     combineReducers({ 
         favorites,
-
+        giphReducer,
      }),
     applyMiddleware(logger, sagaMiddleware)
 );
