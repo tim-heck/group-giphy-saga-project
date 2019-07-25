@@ -15,17 +15,20 @@ import { takeEvery, put } from 'redux-saga/effects';
 const sagaMiddleware = createSagaMiddleware();
 
 function* rootSaga() {
-    yield takeEvery('FETCH_GIPH', fetchGiph);
+    yield takeEvery('FETCH_GIPH', search);
 
 }
 
 
-function* fetchGiph(action){
-    console.log('In fetchGiph');
+function* search(action){
+    console.log('In search');
     try {
-        const response = yield Axios.get('/api/favorite')
-        const action = { type: 'SET_GIPH', payload: response.data }
-        yield put(action);
+        const response = yield Axios.post('/api/search', action.payload)
+        console.log(response.data);
+        yield put({
+            type: 'SET_GIPH',
+            payload: response.data
+        });
     }
     catch (error) {
         alert(`Couldn't get yo GIPH foo!`);
@@ -35,7 +38,7 @@ function* fetchGiph(action){
 
 const giphReducer = (state=[], action) => {
     if (action.type === 'SET_GIPH'){
-        return action.payload;
+        return action.payload.data;
     }
     return state;
 }
