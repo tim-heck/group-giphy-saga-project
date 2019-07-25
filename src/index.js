@@ -9,7 +9,7 @@ import './index.css';
 import App from './components/App/App';
 
 import createSagaMiddleware from 'redux-saga';
-import Axios from 'axios';
+import axios from 'axios';
 import { takeEvery, put } from 'redux-saga/effects';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -44,7 +44,7 @@ function* updateFavorite(action) {
 function* search(action){
     console.log('In search');
     try {
-        const response = yield Axios.post('/api/search', action.payload)
+        const response = yield axios.post('/api/search', action.payload)
         console.log(response.data);
         yield put({
             type: 'SET_GIPH',
