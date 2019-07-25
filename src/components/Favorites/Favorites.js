@@ -10,7 +10,7 @@ const mapStateToProps = reduxState => ({
 class Favorites extends Component {
 
     state = {
-        category_id: 0,
+        category_id: 1,
     }
 
     componentDidMount() {
@@ -36,7 +36,7 @@ class Favorites extends Component {
                 <section>
                     <ul>
                         <li>
-                            <Link to="/funny">Funny</Link>
+                            <Link to="/favorites/funny">Funny</Link>
                         </li>
                         <li>
                             <Link to="/vega">Vega</Link>
@@ -52,11 +52,11 @@ class Favorites extends Component {
                         </li>
                     </ul>
 
-                    <Route path="/funny" Component={FunnyFavorites} />
-                    {/* <Route path="/vega"    Component = {VegaFavorites} />
-                <Route path="/cartoon" Component = {CartoonFavorites} />
-                <Route path="/nsfw"    Component = {NsfwFavorites} />
-                <Route path="/meme"    Component = {MemeFavorites} /> */}
+                        <Route exact path="/favorites/funny" component={FunnyFavorites} />
+                    {/* <Route path="/vega"    component = {VegaFavorites} />
+                <Route path="/cartoon" component = {CartoonFavorites} />
+                <Route path="/nsfw"    component = {NsfwFavorites} />
+                <Route path="/meme"    component = {MemeFavorites} /> */}
 
                 </section>
             </Router>
