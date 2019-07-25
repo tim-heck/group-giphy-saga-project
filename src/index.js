@@ -14,6 +14,7 @@ const sagaMiddleware = createSagaMiddleware();
 
 function* rootSaga() {
     yield takeEvery('FETCH_FAVORITES', fetchFavorites);
+    yield takeEvery('UPDATE_FAVORITE', updateFavorite );
 }
 
 function* fetchFavorites(action) {
@@ -23,6 +24,17 @@ function* fetchFavorites(action) {
         yield put ({type: 'SET_FAVORITES', payload: response.data});
     } catch (error) {
         console.log('error in GET favorites', error);
+    }
+}
+
+function* updateFavorite(action) {
+    console.log('in updateFavorite');
+    try{
+        const response = yield axios.put(`/api/favorite/${action.payload.category_id}`, action.payload);
+        yield put({ type: 'FETCH_FAVORITES' })
+    }
+    catch (error) {
+        console.log('error in UPDATE/PUT id and url', error);
     }
 }
 

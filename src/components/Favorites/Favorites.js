@@ -18,13 +18,14 @@ class Favorites extends Component {
     }
 
     handleChange = (event) => {
+        console.log('in handleChange')
         this.setState({
             category_id: event.target.value
         })
     }
 
     handleSubmit = (favorite) => {
-        this.props.dispatch({type: 'UPDATE_FAVORITE', payload: {url: favorite.url, category_id: this.state.category_id}});
+        this.props.dispatch({type: 'UPDATE_FAVORITE', payload: {url: favorite.url, category_id: this.state.category_id, id: favorite.id}});
     }
 
     render() {
@@ -66,8 +67,8 @@ class Favorites extends Component {
                         <li key={item.id}>
                             <img src={item.url} alt=""/>
                             <div>
-                                <select>
-                                    <option value="1" onChange={(event) => this.handleChange(event)}>Funny</option>
+                                <select onChange={(event) => this.handleChange(event)}>
+                                    <option value="1">Funny</option>
                                     <option value="2">Vega</option>
                                     <option value="3">Cartoon</option>
                                     <option value="4">NSFW</option>
