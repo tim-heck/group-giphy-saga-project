@@ -19,7 +19,7 @@ function* rootSaga() {
 function* fetchFavorites(action) {
     console.log('in fetchFavorites');
     try {
-        const response = yield axios.get('/api/favorites');
+        const response = yield axios.get('/api/favorite');
         yield put ({type: 'SET_FAVORITES', payload: response.data});
     } catch (error) {
         console.log('error in GET favorites', error);
@@ -39,7 +39,7 @@ const favorites = (state = [], action) => {
 const store = createStore(
     combineReducers({ 
         favorites,
-        
+
      }),
     applyMiddleware(logger, sagaMiddleware)
 );

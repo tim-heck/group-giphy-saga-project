@@ -10,7 +10,7 @@ const mapStateToProps = reduxState => ({
 class Favorites extends Component {
 
     state = {
-        category_id: 0
+        category_id: 0,
     }
 
     componentDidMount() {
@@ -24,12 +24,11 @@ class Favorites extends Component {
     }
 
     handleSubmit = (favorite) => {
-
         this.props.dispatch({type: 'UPDATE_FAVORITE', payload: {url: favorite.url, category_id: this.state.category_id}});
     }
 
     render() {
-        console.log(state);
+        console.log(this.state);
         return (
             <>
             <Router>
