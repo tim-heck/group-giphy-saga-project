@@ -32,9 +32,17 @@ function* fetchGiph(action){
         console.log('Error on GET', error);
     }
 }
+
+const giphReducer = (state=[], action) => {
+    if (action.type === 'SET_GIPH'){
+        return action.payload;
+    }
+    return state;
+}
+
 const store = createStore(
     combineReducers({ 
-
+        giphReducer,
      }),
     applyMiddleware(logger, sagaMiddleware)
 );

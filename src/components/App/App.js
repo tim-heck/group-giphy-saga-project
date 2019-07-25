@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import Header from '../Header/Header';
+import { connect } from 'react-redux';
 
 class App extends Component {
+
+
+  componentDidMount() {
+    this.props.dispatch({type: 'FETCH_GIPH'});
+  }
 
   render() {
     return (
@@ -13,4 +19,4 @@ class App extends Component {
   
 }
 
-export default App;
+export default connect()(App);
