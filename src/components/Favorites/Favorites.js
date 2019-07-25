@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import { HashRouter as Router, Route, Link } from 'react-router-dom';
-import FunnyFavorites from '../FunnyFavorites/FunnyFavorites';
 import { connect } from 'react-redux';
+import FunnyFavorites from '../FunnyFavorites/FunnyFavorites';
+import AllFavorites from '../AllFavorites/AllFavorites';
+import VegaFavorites from '../VegaFavorites/VegaFavorites';
+import CartoonFavorites from '../CartoonFavorites/CartoonFavorites';
+import NsfwFavorites from '../NsfwFavorites/NsfwFavorites';
+import MemeFavorites from '../MemeFavorites.js/MemeFavorites';
 
 const mapStateToProps = reduxState => ({
     reduxState,
@@ -9,77 +14,38 @@ const mapStateToProps = reduxState => ({
 
 class Favorites extends Component {
 
-    state = {
-        category_id: 1,
-    }
-
-    componentDidMount() {
-        this.props.dispatch({type: 'FETCH_FAVORITES'});
-    }
-
-    handleChange = (event) => {
-        console.log('in handleChange')
-        this.setState({
-            category_id: event.target.value
-        })
-    }
-
-    handleSubmit = (favorite) => {
-        this.props.dispatch({type: 'UPDATE_FAVORITE', payload: {url: favorite.url, category_id: this.state.category_id, id: favorite.id}});
-    }
-
     render() {
-        console.log(this.state);
         return (
             <>
-            <Router>
-                <section>
-                    <ul>
-                        <li>
-                            <Link to="/favorites/funny">Funny</Link>
-                        </li>
-                        <li>
-                            <Link to="/vega">Vega</Link>
-                        </li>
-                        <li>
-                            <Link to="/cartoon">Cartoon</Link>
-                        </li>
-                        <li>
-                            <Link to="/nsfw">NSFW</Link>
-                        </li>
-                        <li>
-                            <Link to="/meme">Meme</Link>
-                        </li>
-                    </ul>
+                <Router>
+                    <section>
+                        <ul>
+                            <li>
+                                <Link to="/favorites/funny">Funny</Link>
+                            </li>
+                            <li>
+                                <Link to="/favorites/vega">Vega</Link>
+                            </li>
+                            <li>
+                                <Link to="/favorites/cartoon">Cartoon</Link>
+                            </li>
+                            <li>
+                                <Link to="/favorites/nsfw">NSFW</Link>
+                            </li>
+                            <li>
+                                <Link to="/favorites/meme">Meme</Link>
+                            </li>
+                        </ul>
 
+                        <Route exact path="/favorites/all" component={AllFavorites} />
                         <Route exact path="/favorites/funny" component={FunnyFavorites} />
-                    {/* <Route path="/vega"    component = {VegaFavorites} />
-                <Route path="/cartoon" component = {CartoonFavorites} />
-                <Route path="/nsfw"    component = {NsfwFavorites} />
-                <Route path="/meme"    component = {MemeFavorites} /> */}
+                        <Route exact path="/favorites/vega" component={VegaFavorites} />
+                        <Route exact path="/favorites/cartoon" component={CartoonFavorites} />
+                        <Route exact path="/favorites/nsfw" component={NsfwFavorites} />
+                        <Route exact path="/favorites/meme" component={MemeFavorites} />
 
-                </section>
-            </Router>
-
-            <section>
-                <ul>
-                    {this.props.reduxState.favorites.map(item => 
-                        <li key={item.id}>
-                            <img src={item.url} alt=""/>
-                            <div>
-                                <select onChange={(event) => this.handleChange(event)}>
-                                    <option value="1">Funny</option>
-                                    <option value="2">Vega</option>
-                                    <option value="3">Cartoon</option>
-                                    <option value="4">NSFW</option>
-                                    <option value="5">Meme</option>
-                                </select>
-                                <button onClick={() => this.handleSubmit(item)}>Save Favorite</button>
-                            </div>
-                        </li>
-                    )}
-                </ul>
-            </section>
+                    </section>
+                </Router>
             </>
         );
     }

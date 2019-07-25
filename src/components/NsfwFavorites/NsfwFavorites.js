@@ -5,11 +5,11 @@ const mapStateToProps = reduxState => ({
     reduxState,
 });
 
-class FunnyFavorites extends Component {
+class NsfwFavorites extends Component {
 
     checkCategory = (gif) => {
         console.log(gif);
-        if (gif.category_id === 1) {
+        if (gif.category_id === 4) {
             return (
                 <li key={gif.id}>
                     <img src={gif.url} alt="" />
@@ -17,10 +17,10 @@ class FunnyFavorites extends Component {
             );
         }
     }
-    
+
     render() {
         return (
-          <>
+            <>
                 <section>
                     <ul>
                         {this.props.reduxState.favorites.map(item =>
@@ -28,10 +28,10 @@ class FunnyFavorites extends Component {
                         )}
                     </ul>
                 </section>
-          </>
+            </>
         );
     }
 
 }
 
-export default connect(mapStateToProps)(FunnyFavorites);
+export default connect(mapStateToProps)(NsfwFavorites);
